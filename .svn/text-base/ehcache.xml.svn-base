@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="true" monitoring="autodetect"
+         dynamicConfig="true" >
+    <diskStore path="java.io.tmpdir"/>
+    <defaultCache
+           maxElementsInMemory="100"
+           eternal="false"
+           overflowToDisk="false"
+           timeToIdleSeconds="1200"
+           timeToLiveSeconds="1200">
+      
+    </defaultCache>
+	<!-- reportCache -->
+	<!-- 
+	<cache name="reportCache"
+           maxElementsInMemory="1000000"
+           maxElementsOnDisk="10000000"
+           eternal="true"
+           overflowToDisk="true"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LFU"
+            />
+ 
+    <cache name="checkDataCache"
+           maxElementsInMemory="30000"
+           maxElementsOnDisk="100000"
+           eternal="true"
+           overflowToDisk="true"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LFU"
+            />
+             -->
+</ehcache>
+

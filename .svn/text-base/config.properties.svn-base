@@ -1,0 +1,9 @@
+encrypt_db.url=zXb3Xpw/uBJNzl3xeYlztVTs9wYJl3JonleV/AmoXH5+/gKzcDM05VDQVRe4hDN45AyBa/pGttKW19uv3SRBCgTElz7aE3EaPbzrCdGdP4c=
+encrypt_db.driverclass=l167dL+tVzNhT06mnjg/fiwtdfZjmrIw
+encrypt_db.username=SQW6LfBkeLs=
+encrypt_db.password=SQW6LfBkeLs=
+db.maxActive=30 
+db.maxIdle=5 
+db.maxWait=4 
+db.minIdle=2 
+

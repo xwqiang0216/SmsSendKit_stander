@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	">
+
+	<!-- 
+	<context:property-placeholder location="classpath:config.properties" />
+	<context:property-placeholder location="file:${user.dir}/config.properties" />
+	<bean class="utils.DecryptPropertyPlaceholderConfigurer" location="file:${user.dir}/config.properties"/>  
+	 -->
+	
+	
+	<bean id="propertyConfig" class="utils.DecryptPropertyPlaceholderConfigurer">
+		<property name="locations">                           
+			<list>                                   
+				<value>file:${user.dir}/config.properties</value>                                  
+			</list>                  
+		</property>          
+	</bean>
+	 
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="url" value="${encrypt_db.url}"></property>
+		<property name="driverClassName" value="${encrypt_db.driverclass}"></property>
+		<property name="validationQuery" value="SELECT 1"></property>
+		<property name="testOnBorrow" value="true"></property>
+		<property name="username" value="${encrypt_db.username}"></property>
+		<property name="password" value="${encrypt_db.password}"></property>
+		<property name="maxActive" value="${db.maxActive}"></property>
+		<property name="maxIdle" value="${db.maxIdle}"></property>
+		<property name="maxWait" value="${db.maxWait}"></property>
+		<property name="minIdle" value="${db.minIdle}"></property>
+	</bean>
+	<bean id="serverDAO" class="com.hskj.dao.ServerDAO">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+	
+	<bean id="threadStatusDAO" class="com.hskj.dao.ThreadStatusDAO">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+	</bean>
+	
+	<bean id="controlThread" class="com.hskj.threads.send.ControlThread" destroy-method="shutDown">
+		<property name="threadStatusDAO">
+			<ref local="threadStatusDAO"/>
+		</property>
+	</bean>
+	
+	<bean id="cmppSendByNioThread" class="com.hskj.threads.send.CmppSendByNioThread" scope="prototype">
+		<property name="serverDAO">
+			<ref local="serverDAO"/>
+		</property>
+		<property name="threadStatusDAO">
+			<ref local="threadStatusDAO"/>
+		</property>
+		<property name="name">
+			<value>cmppSendByNioThread</value>
+		</property>
+	</bean>
+	
+	 
+	<bean id="cmppSendByNioThreadSingle30" class="com.hskj.threads.send.CmppSendByNioThreadSingle30" scope="prototype">
+		<property name="serverDAO">
+			<ref local="serverDAO"/>
+		</property>
+		<property name="threadStatusDAO">
+			<ref local="threadStatusDAO"/>
+		</property>
+		<property name="name">
+			<value>cmppSendByNioThreadSingle30</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="sgipSendThread" class="com.hskj.threads.send.SgipSendThread" scope="prototype">
+		<property name="serverDAO">
+			<ref local="serverDAO"/>
+		</property>
+		<property name="threadStatusDAO">
+			<ref local="threadStatusDAO"/>
+		</property>
+		<property name="name">
+			<value>sgipSendThread</value>
+		</property>
+	</bean>
+	
+	<bean id="sgipSendBySplitLongThread" class="com.hskj.threads.send.SgipSendBySplitLongThread" scope="prototype">
+		<property name="serverDAO">
+			<ref local="serverDAO"/>
+		</property>
+		<property name="threadStatusDAO">
+			<ref local="threadStatusDAO"/>
+		</property>
+		<property name="name">
+			<value>sgipSendBySplitLongThread</value>
+		</property>
+	</bean>
+	
+	<bean id="sgipSendBySplitLong_LNLT_Thread" class="com.hskj.threads.send.SgipLNLTSendThread" scope="prototype">
+		<property name="serverDAO">
+			<ref local="serverDAO"/>
+		</property>
+		<property name="threadStatusDAO">
+			<ref local="threadStatusDAO"/>
+		</property>
+		<property name="name">
+			<value>sgipSendBySplitLong_LNLT_Thread</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="smgp30nioSendThread" class="com.hskj.threads.send.Smgp30nioSendThread" scope="prototype">
+		<property name="serverDAO">
+			<ref local="serverDAO"/>
+		</property>
+		<property name="threadStatusDAO">
+			<ref local="threadStatusDAO"/>
+		</property>
+		<property name="name">
+			<value>smgp30nioSendThread</value>
+		</property>
+	</bean>
+	
+</beans>
